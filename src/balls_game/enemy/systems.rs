@@ -1,4 +1,4 @@
-use crate::player::*;
+use super::super::player::*;
 
 use super::*;
 use bevy::window::PrimaryWindow;
@@ -136,4 +136,8 @@ pub fn player_hit_enemy(
     }
 }
 
-
+pub fn despawn_enemies(mut command: Commands, enemy_query: Query<Entity, With<Enemy>>) {
+    for entity in enemy_query.iter() {
+        command.entity(entity).despawn();
+    }
+}

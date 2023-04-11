@@ -1,5 +1,5 @@
 use super::*;
-use bevy::{window::PrimaryWindow, app::AppExit};
+use bevy::{app::AppExit, window::PrimaryWindow};
 
 pub fn spawn_player(
     mut commands: Commands,
@@ -16,14 +16,6 @@ pub fn spawn_player(
         },
         Player {},
     ));
-}
-
-pub fn spawn_camera(mut commands: Commands, window: Query<&Window, With<PrimaryWindow>>) {
-    let window = window.get_single().unwrap();
-    commands.spawn(Camera2dBundle {
-        transform: Transform::from_xyz(window.width() / 2.0, window.height() / 2.0, 0.0),
-        ..default()
-    });
 }
 
 pub fn player_movement(
@@ -91,9 +83,13 @@ pub fn exit_game(kbd_input: Res<Input<KeyCode>>, mut exit_writer: EventWriter<Ap
     }
 }
 
-pub fn game_over(mut game_over: EventReader<GameOver>) {
+pub fn game_over(
+    mut game_over: EventReader<GameOver>,
+    mut next_app_state: ResMut<NextState<AppState>>,
+) {
     for game_over_event in game_over.iter() {
         println!("Final score is: {}", game_over_event.score);
+        next_app_state.set(AppState::GameOver);
     }
 }
 
@@ -112,4 +108,18 @@ pub fn check_high_scores(high_scores: Res<HighScores>) {
     if high_scores.is_changed() {
         println!("High scores: {:?}", high_scores)
     }
+}
+
+pub fn despawn_player(mut commands: Commands, player_query: Query<Entity, With<Player>>) {
+    for entity in player_query.iter() {
+        commands.entity(entity).despawn();
+    }
+}
+
+pub fn insert_score(mut commands: Commands) {
+    commands.insert_resource(Score::default());
+}
+
+pub fn remove_score(mut commands: Commands) {
+    commands.remove_resource::<Score>();
 }

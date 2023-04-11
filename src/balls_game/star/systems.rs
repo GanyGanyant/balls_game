@@ -1,6 +1,6 @@
 use bevy::window::PrimaryWindow;
 
-use crate::player::*;
+use super::super::player::*;
 
 use super::*;
 
@@ -71,5 +71,11 @@ pub fn spawn_next_star(
             },
             Star {},
         ));
+    }
+}
+
+pub fn despawn_stars(mut commands: Commands, star_query: Query<Entity, With<Star>>) {
+    for entity in star_query.iter() {
+        commands.entity(entity).despawn();
     }
 }
