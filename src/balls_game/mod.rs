@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 mod enemy;
+mod main_menu;
 mod player;
 mod star;
 
@@ -8,6 +9,7 @@ mod systems;
 use systems::*;
 
 use enemy::EnemyPlugin;
+use main_menu::MainMenuPlugin;
 use player::PlayerPlugin;
 use star::StarPlugin;
 
@@ -20,6 +22,7 @@ impl Plugin for BallsGame {
             .add_plugin(EnemyPlugin)
             .add_plugin(PlayerPlugin)
             .add_plugin(StarPlugin)
+            .add_plugin(MainMenuPlugin)
             .add_system(toggle_game.run_if(in_state(AppState::InGame)))
             .add_system(pause_game.in_schedule(OnEnter(AppState::InGame)))
             .add_systems((transition_to_game, transition_to_main_menu));
