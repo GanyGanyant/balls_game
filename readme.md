@@ -1,3 +1,4 @@
 # Deez Nuts
 
-rust game in bevy engine
+Simple project to learn bevy engine
+Written in rust
