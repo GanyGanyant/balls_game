@@ -3,7 +3,9 @@ use rand::prelude::*;
 mod systems;
 use systems::*;
 
-use crate::{balls_game::{GameState, AppState}};
+use crate::balls_game::{AppState, GameState};
+
+use super::GameEvents;
 
 pub const NUM_OF_STARS: usize = 10;
 pub const STAR_SPAWN_TIME: f32 = 1.0;
@@ -33,6 +35,7 @@ impl Plugin for StarPlugin {
             .add_system(despawn_stars.in_schedule(OnExit(AppState::InGame)))
             .add_system(
                 player_hit_star
+                    .in_set(GameEvents)
                     .run_if(in_state(GameState::Running))
                     .run_if(in_state(AppState::InGame)),
             )

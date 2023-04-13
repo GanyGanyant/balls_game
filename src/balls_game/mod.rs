@@ -24,15 +24,20 @@ impl Plugin for BallsGame {
             .add_plugin(StarPlugin)
             .add_plugin(UIPlugin)
             .add_system(toggle_game.run_if(in_state(AppState::InGame)))
-            .add_system(pause_game.in_schedule(OnEnter(AppState::InGame)))
+            .add_system(
+                unpause_game
+                    .in_schedule(OnEnter(AppState::InGame))
+                    .before(GameEvents),
+            )
+            .add_system(unpause_game.in_schedule(OnExit(AppState::InGame)))
             .add_systems((transition_to_game, transition_to_main_menu));
     }
 }
 
 #[derive(States, Debug, Hash, Eq, PartialEq, Clone, Default)]
 pub enum GameState {
-    #[default]
     Running,
+    #[default]
     Paused,
 }
 
@@ -43,3 +48,6 @@ pub enum AppState {
     InGame,
     GameOver,
 }
+
+#[derive(SystemSet, Hash, Debug, PartialEq, Eq, Clone)]
+pub struct GameEvents;

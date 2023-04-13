@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::balls_game::ui::styles::*;
+use crate::balls_game::ui::{components::*, styles::*};
 
 use super::components::*;
 

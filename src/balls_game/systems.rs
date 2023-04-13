@@ -7,14 +7,15 @@ pub fn transition_to_game(
     if kbd_in.just_pressed(KeyCode::G) {
         match game_state.0 {
             AppState::InGame => (),
-            _ => next_app_state.set(AppState::InGame),
+            _ => {
+                next_app_state.set(AppState::InGame);
+            }
         }
     }
 }
 
 pub fn transition_to_main_menu(
     mut next_app_state: ResMut<NextState<AppState>>,
-    mut next_game_state: ResMut<NextState<GameState>>,
     kbd_in: Res<Input<KeyCode>>,
     app_state: Res<State<AppState>>,
 ) {
@@ -23,14 +24,13 @@ pub fn transition_to_main_menu(
             AppState::MainMenu => (),
             _ => {
                 next_app_state.set(AppState::MainMenu);
-                next_game_state.set(GameState::Paused);
             }
         }
     }
 }
 
-pub fn pause_game(mut next_game_state: ResMut<NextState<GameState>>) {
-    next_game_state.set(GameState::Paused);
+pub fn unpause_game(mut next_game_state: ResMut<NextState<GameState>>) {
+    next_game_state.set(GameState::Running);
 }
 
 pub fn toggle_game(

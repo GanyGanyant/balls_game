@@ -3,7 +3,8 @@ use bevy::prelude::*;
 pub const NORMAL_BUTTON_COLOR: Color = Color::rgb(0.15, 0.15, 0.15);
 pub const HOVER_BUTTON_COLOR: Color = Color::rgb(0.25, 0.25, 0.25);
 pub const PRESSED_BUTTON_COLOR: Color = Color::rgb(0.30, 0.15, 0.45);
-pub const HUD_BOX_COLOR: Color = Color::rgba(0.15, 0.15, 0.15, 0.3);
+pub const BOX_COLOR: Color = Color::rgb(0.40, 0.40, 0.40);
+pub const GLOOM: Color = Color::rgba(0.15, 0.15, 0.15, 0.3);
 
 pub const BUTTON_STYLE: Style = Style {
     size: Size {
@@ -112,5 +113,27 @@ pub const HUD_BOX_IMAGE_STYLE: Style = Style {
     },
     align_items: AlignItems::Center,
     justify_content: JustifyContent::Center,
+    ..Style::DEFAULT
+};
+pub const BOX_STYLE: Style = Style {
+    size: Size {
+        width: Val::Auto,
+        height: Val::Auto,
+    },
+    margin: UiRect::all(Val::Auto),
+    padding: UiRect::all(Val::Px(32.0)),
+    flex_direction: FlexDirection::Column,
+    justify_content: JustifyContent::Center,
+    align_items: AlignItems::Center,
+    gap: Size {
+        width: Val::Auto,
+        height: Val::Px(10.0),
+    },
+    ..Style::DEFAULT
+};
+
+pub const GLOOM_STYLE: Style = Style {
+    size: Size::all(Val::Percent(100.0)),
+    position_type: PositionType::Absolute,
     ..Style::DEFAULT
 };

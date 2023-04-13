@@ -4,9 +4,11 @@ use systems::*;
 
 use crate::balls_game::{AppState, GameState};
 
+use super::GameEvents;
+
 pub const ENEMY_SPEED: f32 = 256.0;
-pub const NUM_OF_ENEMIES: usize = 7;
-pub const ENEMY_SPAWN_TIME: f32 = 10.0;
+pub const NUM_OF_ENEMIES: usize = 5;
+pub const ENEMY_SPAWN_TIME: f32 = 8.0;
 
 #[derive(Component)]
 
@@ -36,6 +38,7 @@ impl Plugin for EnemyPlugin {
             .add_system(despawn_enemies.in_schedule(OnExit(AppState::InGame)))
             .add_system(
                 player_hit_enemy
+                    .in_set(GameEvents)
                     .run_if(in_state(GameState::Running))
                     .run_if(in_state(AppState::InGame)),
             )

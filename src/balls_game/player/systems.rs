@@ -119,7 +119,3 @@ pub fn despawn_player(mut commands: Commands, player_query: Query<Entity, With<P
 pub fn insert_score(mut commands: Commands) {
     commands.insert_resource(Score::default());
 }
-
-pub fn remove_score(mut commands: Commands) {
-    commands.remove_resource::<Score>();
-}

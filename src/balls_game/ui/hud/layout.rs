@@ -23,7 +23,7 @@ pub fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
             parent
                 .spawn(NodeBundle {
                     style: HUD_BOX_STYLE,
-                    background_color: HUD_BOX_COLOR.into(),
+                    background_color: GLOOM.into(),
                     ..default()
                 })
                 .with_children(|parent| {
@@ -50,7 +50,7 @@ pub fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
             parent
                 .spawn(NodeBundle {
                     style: HUD_BOX_STYLE,
-                    background_color: HUD_BOX_COLOR.into(),
+                    background_color: GLOOM.into(),
                     ..default()
                 })
                 .with_children(|parent| {

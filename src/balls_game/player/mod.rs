@@ -36,7 +36,7 @@ impl Plugin for PlayerPlugin {
             .init_resource::<HighScores>()
             .add_event::<GameOver>()
             .add_system(insert_score.in_schedule(OnEnter(AppState::InGame)))
-            .add_system(remove_score.in_schedule(OnExit(AppState::InGame)))
+            //.add_system(remove_score.in_schedule(OnEnter(AppState::InGame)))
             .add_system(spawn_player.in_schedule(OnEnter(AppState::InGame)))
             .add_system(despawn_player.in_schedule(OnExit(AppState::InGame)))
             .add_systems(
