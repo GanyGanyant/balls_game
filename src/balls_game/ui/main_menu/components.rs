@@ -1,8 +1,19 @@
-use bevy::{app::AppExit, prelude::*};
+use bevy::{prelude::*, app::AppExit};
 
-use crate::balls_game::AppState;
+use crate::balls_game::{ui::styles::*, AppState};
 
-use super::{components::*, styles::*};
+#[derive(Component)]
+pub struct MainMenu;
+
+#[derive(Component)]
+pub struct Title;
+
+#[derive(Component)]
+pub struct PlayButton;
+
+#[derive(Component)]
+pub struct QuitButton;
+
 
 pub fn play_button(
     mut button_query: Query<

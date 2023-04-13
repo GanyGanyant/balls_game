@@ -1,10 +1,8 @@
 use bevy::prelude::*;
 
-use super::{components::*, styles::*};
+use crate::balls_game::ui::styles::*;
 
-pub fn spawn_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let _main_menu_entity = build_main_menu(&mut commands, &asset_server);
-}
+use super::components::*;
 
 pub fn despawn_main_menu(mut commands: Commands, main_menu_query: Query<Entity, With<MainMenu>>) {
     for entity in main_menu_query.iter() {
@@ -12,7 +10,7 @@ pub fn despawn_main_menu(mut commands: Commands, main_menu_query: Query<Entity, 
     }
 }
 
-pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>) -> Entity {
+pub fn spawn_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn((
             NodeBundle {
@@ -31,7 +29,7 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                     },
                     Title,
                 ))
-                .with_children(|parent: &mut ChildBuilder| {
+                .with_children(|parent| {
                     parent.spawn(ImageBundle {
                         style: IMAGE_STYLE,
                         image: asset_server.load("sprites/ball_blue_large.png").into(),
@@ -100,6 +98,5 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                         ..default()
                     });
                 });
-        })
-        .id()
+        });
 }

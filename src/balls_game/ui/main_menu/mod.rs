@@ -1,17 +1,12 @@
 use bevy::prelude::*;
 
+use crate::balls_game::AppState;
+
+use components::*;
 use layout::*;
 
-use self::interactions::{play_button, quit_button};
-
-use super::AppState;
-
-// * systems
-mod interactions;
-mod layout;
-
 mod components;
-mod styles;
+mod layout;
 
 pub struct MainMenuPlugin;
 

@@ -3,6 +3,7 @@ use bevy::prelude::*;
 pub const NORMAL_BUTTON_COLOR: Color = Color::rgb(0.15, 0.15, 0.15);
 pub const HOVER_BUTTON_COLOR: Color = Color::rgb(0.25, 0.25, 0.25);
 pub const PRESSED_BUTTON_COLOR: Color = Color::rgb(0.30, 0.15, 0.45);
+pub const HUD_BOX_COLOR: Color = Color::rgba(0.15, 0.15, 0.15, 0.3);
 
 pub const BUTTON_STYLE: Style = Style {
     size: Size {
@@ -63,3 +64,53 @@ pub fn get_text_style(asset_server: &AssetServer, font_size: f32) -> TextStyle {
         color: Color::WHITE,
     }
 }
+
+pub const HUD_STYLE: Style = Style {
+    size: Size {
+        width: Val::Percent(100.0),
+        height: Val::Auto,
+    },
+    flex_direction: FlexDirection::Row,
+    justify_content: JustifyContent::SpaceBetween,
+    padding: UiRect {
+        left: Val::Px(25.0),
+        right: Val::Px(25.0),
+        top: Val::Px(25.0),
+        bottom: Val::Px(25.0),
+    },
+    ..Style::DEFAULT
+};
+pub const HUD_BOX_STYLE: Style = Style {
+    size: Size {
+        width: Val::Auto,
+        height: Val::Auto,
+    },
+    flex_direction: FlexDirection::Row,
+    // align_items: AlignItems::Center,
+    gap: Size {
+        width: Val::Px(32.0),
+        height: Val::Auto,
+    },
+    padding: UiRect {
+        left: Val::Px(32.0),
+        right: Val::Px(32.0),
+        top: Val::Px(24.0),
+        bottom: Val::Px(24.0),
+    },
+    margin: UiRect {
+        left: Val::Px(0.0),
+        right: Val::Px(0.0),
+        top: Val::Px(0.0),
+        bottom: Val::Auto,
+    },
+    ..Style::DEFAULT
+};
+pub const HUD_BOX_IMAGE_STYLE: Style = Style {
+    size: Size {
+        width: Val::Px(48.0),
+        height: Val::Px(48.0),
+    },
+    align_items: AlignItems::Center,
+    justify_content: JustifyContent::Center,
+    ..Style::DEFAULT
+};
