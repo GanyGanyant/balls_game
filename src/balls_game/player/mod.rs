@@ -14,6 +14,18 @@ pub struct HighScores {
     pub scores: Vec<(String, u32)>,
 }
 
+impl HighScores {
+    pub fn get_high_score(&self) -> u32 {
+        let mut max = 0;
+        for (_, score) in self.scores.iter() {
+            if *score > max {
+                max = *score;
+            }
+        }
+        max
+    }
+}
+
 #[derive(Resource, Default)]
 pub struct Score {
     pub value: u32,
@@ -45,12 +57,6 @@ impl Plugin for PlayerPlugin {
                     .in_set(OnUpdate(AppState::InGame))
                     .chain(),
             )
-            .add_systems((
-                exit_game,
-                game_over,
-                update_score.run_if(in_state(AppState::InGame)),
-                update_high_scores,
-                check_high_scores,
-            ));
+            .add_systems((exit_game, game_over, update_high_scores));
     }
 }

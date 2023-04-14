@@ -72,11 +72,6 @@ pub fn limit_player_movements(
     }
 }
 
-pub fn update_score(score: Res<Score>) {
-    if score.is_changed() {
-        println!("Score is: {}", score.value);
-    }
-}
 pub fn exit_game(kbd_input: Res<Input<KeyCode>>, mut exit_writer: EventWriter<AppExit>) {
     if kbd_input.just_pressed(KeyCode::Escape) {
         exit_writer.send(AppExit);
@@ -87,8 +82,7 @@ pub fn game_over(
     mut game_over: EventReader<GameOver>,
     mut next_app_state: ResMut<NextState<AppState>>,
 ) {
-    for game_over_event in game_over.iter() {
-        println!("Final score is: {}", game_over_event.score);
+    for _ in game_over.iter() {
         next_app_state.set(AppState::GameOver);
     }
 }
@@ -101,12 +95,6 @@ pub fn update_high_scores(
         high_scores
             .scores
             .push(("Player".to_string(), game_over_event.score))
-    }
-}
-
-pub fn check_high_scores(high_scores: Res<HighScores>) {
-    if high_scores.is_changed() {
-        println!("High scores: {:?}", high_scores)
     }
 }
 

@@ -137,3 +137,24 @@ pub const GLOOM_STYLE: Style = Style {
     position_type: PositionType::Absolute,
     ..Style::DEFAULT
 };
+
+pub const TEXT_HOLDER_STYLE: Style = Style {
+    size: Size {
+        width: Val::Auto,
+        height: Val::Auto,
+    },
+    flex_direction: FlexDirection::Column,
+    justify_content: JustifyContent::Center,
+    align_items: AlignItems::Center,
+    gap: Size {
+        width: Val::Auto,
+        height: Val::Px(32.0),
+    },
+    margin: UiRect {
+        left: Val::Auto,
+        right: Val::Auto,
+        top: Val::Auto,
+        bottom: Val::Px(32.0),
+    },
+    ..Style::DEFAULT
+};

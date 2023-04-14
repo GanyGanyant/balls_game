@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::balls_game::{
-    player::Score,
+    player::{HighScores, Score},
     ui::{components::*, styles::*},
 };
 
@@ -17,6 +17,7 @@ pub fn spawn_game_over_menu(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     score: Res<Score>,
+    high_scores: Res<HighScores>,
 ) {
     commands
         .spawn((
@@ -57,27 +58,48 @@ pub fn spawn_game_over_menu(
                                 ..default()
                             });
                         });
-                    // * Score
+                    // * holder for score and highscore
                     parent
-                        .spawn((
-                            NodeBundle {
-                                style: TITLE_STYLE,
-                                ..default()
-                            },
-                            Title,
-                        ))
+                        .spawn(NodeBundle {
+                            style: TEXT_HOLDER_STYLE,
+                            ..default()
+                        })
                         .with_children(|parent| {
-                            parent.spawn(TextBundle {
-                                text: Text {
-                                    sections: vec![TextSection::new(
-                                        format!("Score: {}", score.value),
-                                        get_text_style(&asset_server, 48.0),
-                                    )],
-                                    alignment: TextAlignment::Center,
-                                    ..default()
-                                },
-                                ..default()
-                            });
+                            // * Score
+                            parent
+                                .spawn((NodeBundle { ..default() }, Title))
+                                .with_children(|parent| {
+                                    parent.spawn(TextBundle {
+                                        text: Text {
+                                            sections: vec![TextSection::new(
+                                                format!("Score: {}", score.value),
+                                                get_text_style(&asset_server, 48.0),
+                                            )],
+                                            alignment: TextAlignment::Center,
+                                            ..default()
+                                        },
+                                        ..default()
+                                    });
+                                });
+                            // * High Score
+                            parent
+                                .spawn((NodeBundle { ..default() }, Title))
+                                .with_children(|parent| {
+                                    parent.spawn(TextBundle {
+                                        text: Text {
+                                            sections: vec![TextSection::new(
+                                                format!(
+                                                    "High Score: {}",
+                                                    high_scores.get_high_score()
+                                                ),
+                                                get_text_style(&asset_server, 32.0),
+                                            )],
+                                            alignment: TextAlignment::Center,
+                                            ..default()
+                                        },
+                                        ..default()
+                                    });
+                                });
                         });
                     // * PlayAgain
                     parent

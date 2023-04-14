@@ -13,8 +13,14 @@ pub fn spawn_enemies(
     let mut generatror = rand::thread_rng();
     let (x, y) = (window.width(), window.height());
     for _ in 0..NUM_OF_ENEMIES {
-        let x = generatror.gen_range(32.0..x - 32.0);
-        let y = generatror.gen_range(32.0..y - 32.0);
+        let mut x = generatror.gen_range(32.0..x - 32.0 - 128.0);
+        if x > window.width() / 2.0 - 64.0 {
+            x += 128.0;
+        }
+        let mut y = generatror.gen_range(32.0..y - 32.0 - 128.0);
+        if y > window.height() / 2.0 - 64.0 {
+            y += 128.0;
+        }
         commands.spawn((
             SpriteBundle {
                 transform: Transform::from_xyz(x, y, 0.0),
@@ -89,19 +95,18 @@ pub fn tick_enemy_timer(mut enemy_timer: ResMut<EnemySpawnTimer>, time: Res<Time
 
 pub fn spawn_next_enemy(
     mut commands: Commands,
-    window: Query<&Window, With<PrimaryWindow>>,
     assets: Res<AssetServer>,
     enemy_timer: Res<EnemySpawnTimer>,
+    enemy_query: Query<&Transform, With<Enemy>>,
 ) {
-    let window = window.get_single().unwrap();
-    let mut generatror = rand::thread_rng();
-    let (x, y) = (window.width(), window.height());
     if enemy_timer.timer.finished() {
-        let x = generatror.gen_range(32.0..x - 32.0);
-        let y = generatror.gen_range(32.0..y - 32.0);
+        let mut enemies = enemy_query.iter();
+        let mut generatror = rand::thread_rng();
+        let n = generatror.gen_range(0..enemy_query.iter().count());
+        let pos = enemies.nth(n).unwrap();
         commands.spawn((
             SpriteBundle {
-                transform: Transform::from_xyz(x, y, 0.0),
+                transform: *pos,
                 texture: assets.load("sprites/ball_red_large.png"),
                 ..default()
             },
@@ -127,7 +132,6 @@ pub fn player_hit_enemy(
             let delta_x = enemy_transform.translation.x - transform.translation.x;
             let delta_y = enemy_transform.translation.y - transform.translation.y;
             if delta_x * delta_x + delta_y * delta_y < 64.0 * 64.0 {
-                println!("Game over Player: {}", entity.index());
                 audio.play(assets.load("audio/explosionCrunch_000.ogg"));
                 command.entity(entity).despawn();
                 game_over.send(GameOver::from_score(&score));
