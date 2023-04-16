@@ -92,6 +92,9 @@ pub fn limit_enemy_movements(
 pub fn tick_enemy_timer(mut enemy_timer: ResMut<EnemySpawnTimer>, time: Res<Time>) {
     enemy_timer.timer.tick(time.delta());
 }
+pub fn reset_enemy_timer(mut enemy_timer: ResMut<EnemySpawnTimer>) {
+    enemy_timer.timer.reset();
+}
 
 pub fn spawn_next_enemy(
     mut commands: Commands,

@@ -48,8 +48,10 @@ impl Plugin for EnemyPlugin {
                     .in_set(OnUpdate(AppState::InGame))
                     .chain(),
             )
+            .add_system(reset_enemy_timer.in_schedule(OnEnter(AppState::InGame)))
             .add_systems(
                 (tick_enemy_timer, spawn_next_enemy)
+                    .after(reset_enemy_timer)
                     .in_set(OnUpdate(GameState::Running))
                     .in_set(OnUpdate(AppState::InGame))
                     .chain(),

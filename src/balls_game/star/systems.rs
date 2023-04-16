@@ -30,6 +30,10 @@ pub fn tick_star_timer(mut star_timer: ResMut<StarSpawnTimer>, time: Res<Time>) 
     star_timer.timer.tick(time.delta());
 }
 
+pub fn reset_star_timer(mut star_timer: ResMut<StarSpawnTimer>) {
+    star_timer.timer.reset();
+}
+
 pub fn player_hit_star(
     mut command: Commands,
     player_query: Query<&Transform, With<Player>>,

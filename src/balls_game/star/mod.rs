@@ -39,8 +39,10 @@ impl Plugin for StarPlugin {
                     .run_if(in_state(GameState::Running))
                     .run_if(in_state(AppState::InGame)),
             )
+            .add_system(reset_star_timer.in_schedule(OnEnter(AppState::InGame)))
             .add_systems(
                 (tick_star_timer, spawn_next_star)
+                    .after(reset_star_timer)
                     .in_set(OnUpdate(GameState::Running))
                     .in_set(OnUpdate(AppState::InGame))
                     .chain(),
