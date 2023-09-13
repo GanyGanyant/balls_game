@@ -6,56 +6,49 @@ pub const PRESSED_BUTTON_COLOR: Color = Color::rgb(0.30, 0.15, 0.45);
 pub const BOX_COLOR: Color = Color::rgb(0.40, 0.40, 0.40);
 pub const GLOOM: Color = Color::rgba(0.15, 0.15, 0.15, 0.3);
 
-pub const BUTTON_STYLE: Style = Style {
-    size: Size {
-        width: Val::Px(200.0),
-        height: Val::Px(80.0),
-    },
-    align_items: AlignItems::Center,
-    justify_content: JustifyContent::Center,
-    ..Style::DEFAULT
+pub const BUTTON_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Px(200.0);
+    style.height = Val::Px(80.0);
+    style.align_items = AlignItems::Center;
+    style.justify_content = JustifyContent::Center;
+    style
 };
 
-pub const IMAGE_STYLE: Style = Style {
-    size: Size {
-        width: Val::Px(64.0),
-        height: Val::Px(64.0),
-    },
-    margin: UiRect {
+pub const IMAGE_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Px(64.0);
+    style.height = Val::Px(64.0);
+    style.margin = UiRect {
         left: Val::Px(8.0),
         right: Val::Px(8.0),
         top: Val::Px(8.0),
         bottom: Val::Px(8.0),
-    },
-    align_items: AlignItems::Center,
-    justify_content: JustifyContent::Center,
-    ..Style::DEFAULT
+    };
+    style.align_items = AlignItems::Center;
+    style.justify_content = JustifyContent::Center;
+    style
 };
 
-pub const MAIN_MENU_STYLE: Style = Style {
-    size: Size {
-        width: Val::Percent(100.0),
-        height: Val::Percent(100.0),
-    },
-    flex_direction: FlexDirection::Column,
-    justify_content: JustifyContent::Center,
-    align_items: AlignItems::Center,
-    gap: Size {
-        width: Val::Auto,
-        height: Val::Percent(5.0),
-    },
-    ..Style::DEFAULT
+pub const MAIN_MENU_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Percent(100.0);
+    style.height = Val::Percent(100.0);
+    style.flex_direction = FlexDirection::Column;
+    style.justify_content = JustifyContent::Center;
+    style.align_items = AlignItems::Center;
+    style.row_gap = Val::Percent(5.0);
+    style
 };
 
-pub const TITLE_STYLE: Style = Style {
-    flex_direction: FlexDirection::Row,
-    justify_content: JustifyContent::Center,
-    align_items: AlignItems::Center,
-    size: Size {
-        width: Val::Px(300.0),
-        height: Val::Px(120.0),
-    },
-    ..Style::DEFAULT
+pub const TITLE_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.flex_direction = FlexDirection::Row;
+    style.justify_content = JustifyContent::Center;
+    style.align_items = AlignItems::Center;
+    style.width = Val::Px(300.0);
+    style.height = Val::Px(120.0);
+    style
 };
 
 pub fn get_text_style(asset_server: &AssetServer, font_size: f32) -> TextStyle {
@@ -66,95 +59,82 @@ pub fn get_text_style(asset_server: &AssetServer, font_size: f32) -> TextStyle {
     }
 }
 
-pub const HUD_STYLE: Style = Style {
-    size: Size {
-        width: Val::Percent(100.0),
-        height: Val::Auto,
-    },
-    flex_direction: FlexDirection::Row,
-    justify_content: JustifyContent::SpaceBetween,
-    padding: UiRect {
+pub const HUD_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Percent(100.0);
+    style.height = Val::Auto;
+    style.flex_direction = FlexDirection::Row;
+    style.justify_content = JustifyContent::SpaceBetween;
+    style.padding = UiRect {
         left: Val::Px(25.0),
         right: Val::Px(25.0),
         top: Val::Px(25.0),
         bottom: Val::Px(25.0),
-    },
-    ..Style::DEFAULT
+    };
+    style
 };
-pub const HUD_BOX_STYLE: Style = Style {
-    size: Size {
-        width: Val::Auto,
-        height: Val::Auto,
-    },
-    flex_direction: FlexDirection::Row,
-    // align_items: AlignItems::Center,
-    gap: Size {
-        width: Val::Px(32.0),
-        height: Val::Auto,
-    },
-    padding: UiRect {
+pub const HUD_BOX_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Auto;
+    style.height = Val::Auto;
+    style.flex_direction = FlexDirection::Row;
+    style.column_gap = Val::Px(32.0);
+    style.padding = UiRect {
         left: Val::Px(32.0),
         right: Val::Px(32.0),
         top: Val::Px(24.0),
         bottom: Val::Px(24.0),
-    },
-    margin: UiRect {
+    };
+    style.margin = UiRect {
         left: Val::Px(0.0),
         right: Val::Px(0.0),
         top: Val::Px(0.0),
         bottom: Val::Auto,
-    },
-    ..Style::DEFAULT
+    };
+    style
 };
-pub const HUD_BOX_IMAGE_STYLE: Style = Style {
-    size: Size {
-        width: Val::Px(48.0),
-        height: Val::Px(48.0),
-    },
-    align_items: AlignItems::Center,
-    justify_content: JustifyContent::Center,
-    ..Style::DEFAULT
+pub const HUD_BOX_IMAGE_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Px(48.0);
+    style.height = Val::Px(48.0);
+    style.align_items = AlignItems::Center;
+    style.justify_content = JustifyContent::Center;
+    style
 };
-pub const BOX_STYLE: Style = Style {
-    size: Size {
-        width: Val::Auto,
-        height: Val::Auto,
-    },
-    margin: UiRect::all(Val::Auto),
-    padding: UiRect::all(Val::Px(32.0)),
-    flex_direction: FlexDirection::Column,
-    justify_content: JustifyContent::Center,
-    align_items: AlignItems::Center,
-    gap: Size {
-        width: Val::Auto,
-        height: Val::Px(10.0),
-    },
-    ..Style::DEFAULT
+pub const BOX_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Auto;
+    style.height = Val::Auto;
+    style.margin = UiRect::all(Val::Auto);
+    style.padding = UiRect::all(Val::Px(32.0));
+    style.flex_direction = FlexDirection::Column;
+    style.justify_content = JustifyContent::Center;
+    style.align_items = AlignItems::Center;
+    style.row_gap = Val::Px(10.0);
+    style
 };
 
-pub const GLOOM_STYLE: Style = Style {
-    size: Size::all(Val::Percent(100.0)),
-    position_type: PositionType::Absolute,
-    ..Style::DEFAULT
+pub const GLOOM_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Percent(100.0);
+    style.height = Val::Percent(100.0);
+    style.position_type = PositionType::Absolute;
+    style
 };
 
-pub const TEXT_HOLDER_STYLE: Style = Style {
-    size: Size {
-        width: Val::Auto,
-        height: Val::Auto,
-    },
-    flex_direction: FlexDirection::Column,
-    justify_content: JustifyContent::Center,
-    align_items: AlignItems::Center,
-    gap: Size {
-        width: Val::Auto,
-        height: Val::Px(32.0),
-    },
-    margin: UiRect {
+pub const TEXT_HOLDER_STYLE: Style = {
+    let mut style = Style::DEFAULT;
+    style.width = Val::Auto;
+    style.height = Val::Auto;
+    style.flex_direction = FlexDirection::Column;
+    style.justify_content = JustifyContent::Center;
+    style.align_items = AlignItems::Center;
+    style.row_gap = Val::Px(32.0);
+    style.margin = UiRect {
         left: Val::Auto,
         right: Val::Auto,
         top: Val::Auto,
         bottom: Val::Px(32.0),
-    },
-    ..Style::DEFAULT
+    };
+    style
 };

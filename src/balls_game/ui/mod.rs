@@ -19,10 +19,10 @@ pub struct UIPlugin;
 
 impl Plugin for UIPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugin(MainMenuPlugin)
-            .add_plugin(HUDPlugin)
-            .add_plugin(PauseMenuPlugin)
-            .add_plugin(GameOverMenuPlugin)
-            .add_systems((play_button, quit_button, main_menu_button));
+        app.add_plugins(MainMenuPlugin)
+            .add_plugins(HUDPlugin)
+            .add_plugins(PauseMenuPlugin)
+            .add_plugins(GameOverMenuPlugin)
+            .add_systems(Update, (play_button, quit_button, main_menu_button));
     }
 }

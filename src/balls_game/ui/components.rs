@@ -23,7 +23,7 @@ pub fn play_button(
 ) {
     for (interaction, mut bg_color) in button_query.iter_mut() {
         match interaction {
-            Interaction::Clicked => {
+            Interaction::Pressed => {
                 *bg_color = PRESSED_BUTTON_COLOR.into();
                 {
                     next_app_state.set(AppState::InGame);
@@ -44,7 +44,7 @@ pub fn quit_button(
 ) {
     for (interaction, mut bg_color) in button_query.iter_mut() {
         match interaction {
-            Interaction::Clicked => {
+            Interaction::Pressed => {
                 *bg_color = PRESSED_BUTTON_COLOR.into();
                 exit_evenr_writer.send(AppExit);
             }
@@ -63,7 +63,7 @@ pub fn main_menu_button(
 ) {
     for (interaction, mut bg_color) in button_query.iter_mut() {
         match interaction {
-            Interaction::Clicked => {
+            Interaction::Pressed => {
                 *bg_color = PRESSED_BUTTON_COLOR.into();
                 {
                     next_app_state.set(AppState::MainMenu);

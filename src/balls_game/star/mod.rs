@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use rand::prelude::*;
+
 mod systems;
+
 use systems::*;
 
 use crate::balls_game::{AppState, GameState};
@@ -31,21 +33,21 @@ pub struct StarPlugin;
 impl Plugin for StarPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<StarSpawnTimer>()
-            .add_system(spawn_stars.in_schedule(OnEnter(AppState::InGame)))
-            .add_system(despawn_stars.in_schedule(OnExit(AppState::InGame)))
-            .add_system(
-                player_hit_star
-                    .in_set(GameEvents)
-                    .run_if(in_state(GameState::Running))
-                    .run_if(in_state(AppState::InGame)),
+            .add_systems(OnEnter(AppState::InGame), spawn_stars)
+            .add_systems(OnExit(AppState::InGame), despawn_stars)
+            .add_systems(Update,
+                         player_hit_star
+                             .in_set(GameEvents)
+                             .run_if(in_state(GameState::Running))
+                             .run_if(in_state(AppState::InGame)),
             )
-            .add_system(reset_star_timer.in_schedule(OnEnter(AppState::InGame)))
-            .add_systems(
-                (tick_star_timer, spawn_next_star)
-                    .after(reset_star_timer)
-                    .in_set(OnUpdate(GameState::Running))
-                    .in_set(OnUpdate(AppState::InGame))
-                    .chain(),
+            .add_systems(OnEnter(AppState::InGame), reset_star_timer)
+            .add_systems(Update,
+                         (tick_star_timer, spawn_next_star)
+                             .after(reset_star_timer)
+                             .run_if(in_state(GameState::Running))
+                             .run_if(in_state(AppState::InGame))
+                             .chain(),
             );
     }
 }

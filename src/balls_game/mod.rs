@@ -6,6 +6,7 @@ mod star;
 mod ui;
 
 mod systems;
+
 use systems::*;
 
 use enemy::EnemyPlugin;
@@ -19,18 +20,17 @@ impl Plugin for BallsGame {
     fn build(&self, app: &mut App) {
         app.add_state::<GameState>()
             .add_state::<AppState>()
-            .add_plugin(EnemyPlugin)
-            .add_plugin(PlayerPlugin)
-            .add_plugin(StarPlugin)
-            .add_plugin(UIPlugin)
-            .add_system(toggle_game.run_if(in_state(AppState::InGame)))
-            .add_system(
-                unpause_game
-                    .in_schedule(OnEnter(AppState::InGame))
-                    .before(GameEvents),
+            .add_plugins(EnemyPlugin)
+            .add_plugins(PlayerPlugin)
+            .add_plugins(StarPlugin)
+            .add_plugins(UIPlugin)
+            .add_systems(Update, toggle_game.run_if(in_state(AppState::InGame)))
+            .add_systems(OnEnter(AppState::InGame),
+                         unpause_game
+                             .before(GameEvents),
             )
-            .add_system(unpause_game.in_schedule(OnExit(AppState::InGame)))
-            .add_systems((transition_to_game, transition_to_main_menu));
+            .add_systems(OnExit(AppState::InGame), unpause_game)
+            .add_systems(Update, (transition_to_game, transition_to_main_menu));
     }
 }
 

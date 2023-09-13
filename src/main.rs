@@ -7,8 +7,8 @@ pub mod balls_game;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_startup_system(spawn_camera)
-        .add_plugin(BallsGame)
+        .add_systems(Startup, spawn_camera)
+        .add_plugins(BallsGame)
         .run();
 }
 

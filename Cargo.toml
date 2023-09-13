@@ -1,4 +1,4 @@
-[package]
+    [package]
 name = "balls_game"
 version = "0.1.0"
 edition = "2021"
@@ -12,7 +12,7 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = { version = "0.10.0", features = ["dynamic_linking"] }
+bevy = { version = "0.11.2", features = ["dynamic_linking"] }
 rand = "0.8.5"
 
 [target.x86_64-unknown-linux-gnu]

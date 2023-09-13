@@ -39,7 +39,6 @@ pub fn player_hit_star(
     player_query: Query<&Transform, With<Player>>,
     star_query: Query<(Entity, &Transform), With<Star>>,
     assets: Res<AssetServer>,
-    audio: Res<Audio>,
     mut score: ResMut<Score>,
 ) {
     for transform in player_query.iter() {
@@ -48,7 +47,12 @@ pub fn player_hit_star(
             let delta_y = star_transform.translation.y - transform.translation.y;
             if delta_x * delta_x + delta_y * delta_y < 47.0 * 47.0 {
                 score.value += 1;
-                audio.play(assets.load("audio/laserLarge_000.ogg"));
+                command.spawn(
+                    AudioBundle {
+                        source: assets.load("audio/laserLarge_000.ogg"),
+                        settings: Default::default(),
+                    }
+                );
                 command.entity(entity).despawn();
             }
         }

@@ -1,5 +1,7 @@
 use bevy::prelude::*;
+
 mod systems;
+
 use systems::*;
 
 use crate::balls_game::{AppState, GameState};
@@ -11,7 +13,6 @@ pub const NUM_OF_ENEMIES: usize = 5;
 pub const ENEMY_SPAWN_TIME: f32 = 8.0;
 
 #[derive(Component)]
-
 pub struct Enemy {
     pub direction: Vec2,
 }
@@ -34,27 +35,27 @@ pub struct EnemyPlugin;
 impl Plugin for EnemyPlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<EnemySpawnTimer>()
-            .add_system(spawn_enemies.in_schedule(OnEnter(AppState::InGame)))
-            .add_system(despawn_enemies.in_schedule(OnExit(AppState::InGame)))
-            .add_system(
-                player_hit_enemy
-                    .in_set(GameEvents)
-                    .run_if(in_state(GameState::Running))
-                    .run_if(in_state(AppState::InGame)),
+            .add_systems(OnEnter(AppState::InGame), spawn_enemies)
+            .add_systems(OnExit(AppState::InGame), despawn_enemies)
+            .add_systems(Update,
+                         player_hit_enemy
+                             .in_set(GameEvents)
+                             .run_if(in_state(GameState::Running))
+                             .run_if(in_state(AppState::InGame)),
             )
-            .add_systems(
-                (enemy_movement, limit_enemy_movements)
-                    .in_set(OnUpdate(GameState::Running))
-                    .in_set(OnUpdate(AppState::InGame))
-                    .chain(),
+            .add_systems(Update,
+                         (enemy_movement, limit_enemy_movements)
+                             .run_if(in_state(GameState::Running))
+                             .run_if(in_state(AppState::InGame))
+                             .chain(),
             )
-            .add_system(reset_enemy_timer.in_schedule(OnEnter(AppState::InGame)))
-            .add_systems(
-                (tick_enemy_timer, spawn_next_enemy)
-                    .after(reset_enemy_timer)
-                    .in_set(OnUpdate(GameState::Running))
-                    .in_set(OnUpdate(AppState::InGame))
-                    .chain(),
+            .add_systems(OnEnter(AppState::InGame), reset_enemy_timer)
+            .add_systems(Update,
+                         (tick_enemy_timer, spawn_next_enemy)
+                             .after(reset_enemy_timer)
+                             .run_if(in_state(GameState::Running))
+                             .run_if(in_state(AppState::InGame))
+                             .chain(),
             );
     }
 }

@@ -17,7 +17,7 @@ pub fn resume_button(
 ) {
     for (interaction, mut bg_color) in button_query.iter_mut() {
         match interaction {
-            Interaction::Clicked => {
+            Interaction::Pressed => {
                 *bg_color = PRESSED_BUTTON_COLOR.into();
                 {
                     next_game_state.set(GameState::Running);

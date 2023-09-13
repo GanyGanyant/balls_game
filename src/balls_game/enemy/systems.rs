@@ -48,7 +48,7 @@ pub fn limit_enemy_movements(
     mut query: Query<(&mut Transform, &mut Enemy, &Handle<Image>)>,
     asset: Res<Assets<Image>>,
     assets: Res<AssetServer>,
-    audio: Res<Audio>,
+    mut commands: Commands,
 ) {
     for (mut transform, mut enemy, image) in query.iter_mut() {
         let window = window.get_single().unwrap();
@@ -85,7 +85,13 @@ pub fn limit_enemy_movements(
             let sound2 = assets.load("audio/pluck_002.ogg");
 
             let sound = if random() { sound1 } else { sound2 };
-            audio.play(sound);
+            // audio.play(sound);
+            commands.spawn(
+                AudioBundle {
+                    source: sound,
+                    settings: Default::default(),
+                }
+            );
         }
     }
 }
@@ -122,11 +128,10 @@ pub fn spawn_next_enemy(
 }
 
 pub fn player_hit_enemy(
-    mut command: Commands,
+    mut commands: Commands,
     player_query: Query<(Entity, &Transform), With<Player>>,
     enemy_query: Query<&Transform, With<Enemy>>,
     assets: Res<AssetServer>,
-    audio: Res<Audio>,
     score: Res<Score>,
     mut game_over: EventWriter<GameOver>,
 ) {
@@ -135,16 +140,21 @@ pub fn player_hit_enemy(
             let delta_x = enemy_transform.translation.x - transform.translation.x;
             let delta_y = enemy_transform.translation.y - transform.translation.y;
             if delta_x * delta_x + delta_y * delta_y < 64.0 * 64.0 {
-                audio.play(assets.load("audio/explosionCrunch_000.ogg"));
-                command.entity(entity).despawn();
+                commands.spawn(
+                    AudioBundle {
+                        source: assets.load("audio/explosionCrunch_000.ogg"),
+                        settings: Default::default(),
+                    }
+                );
+                commands.entity(entity).despawn();
                 game_over.send(GameOver::from_score(&score));
             }
         }
     }
 }
 
-pub fn despawn_enemies(mut command: Commands, enemy_query: Query<Entity, With<Enemy>>) {
+pub fn despawn_enemies(mut commands: Commands, enemy_query: Query<Entity, With<Enemy>>) {
     for entity in enemy_query.iter() {
-        command.entity(entity).despawn();
+        commands.entity(entity).despawn();
     }
 }

@@ -1,5 +1,7 @@
 use bevy::prelude::*;
+
 mod systems;
+
 use systems::*;
 
 use crate::balls_game::{AppState, GameState};
@@ -31,6 +33,7 @@ pub struct Score {
     pub value: u32,
 }
 
+#[derive(Event)]
 pub struct GameOver {
     pub score: u32,
 }
@@ -40,6 +43,7 @@ impl GameOver {
         Self { score: score.value }
     }
 }
+
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
@@ -47,16 +51,16 @@ impl Plugin for PlayerPlugin {
         app.init_resource::<Score>()
             .init_resource::<HighScores>()
             .add_event::<GameOver>()
-            .add_system(insert_score.in_schedule(OnEnter(AppState::InGame)))
-            //.add_system(remove_score.in_schedule(OnEnter(AppState::InGame)))
-            .add_system(spawn_player.in_schedule(OnEnter(AppState::InGame)))
-            .add_system(despawn_player.in_schedule(OnExit(AppState::InGame)))
-            .add_systems(
-                (player_movement, limit_player_movements)
-                    .in_set(OnUpdate(GameState::Running))
-                    .in_set(OnUpdate(AppState::InGame))
-                    .chain(),
+            .add_systems(OnEnter(AppState::InGame), insert_score)
+            //.add_systems(OnEnter(AppState::InGame), remove_score)
+            .add_systems(OnEnter(AppState::InGame), spawn_player)
+            .add_systems(OnExit(AppState::InGame), despawn_player)
+            .add_systems(Update,
+                         (player_movement, limit_player_movements)
+                             .run_if(in_state(GameState::Running))
+                             .run_if(in_state(AppState::InGame))
+                             .chain(),
             )
-            .add_systems((exit_game, game_over, update_high_scores));
+            .add_systems(Update, (exit_game, game_over, update_high_scores));
     }
 }
